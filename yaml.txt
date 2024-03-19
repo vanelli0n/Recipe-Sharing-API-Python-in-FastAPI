@@ -1,0 +1,18 @@
+# docker-compose.yml
+
+version: '3'
+
+services:
+  api:
+    build: ./api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - SQLALCHEMY_DATABASE_URI=mssql+pyodbc://sa:YourStrong@Passw0rd@db/RecipesDB?driver=ODBC+Driver+17+for+SQL+Server
+
+  db:
+    build: ./db
+    ports:
+      - "1433:1433"

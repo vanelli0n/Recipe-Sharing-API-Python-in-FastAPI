@@ -1,0 +1,11 @@
+project/
+
+    api/
+        app.py
+        Dockerfile
+ 
+    db/
+        init.sql
+        Dockerfile
+ 
+    docker-compose.yml

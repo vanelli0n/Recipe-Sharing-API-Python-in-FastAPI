@@ -1,0 +1,70 @@
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mssql+pyodbc://username:password@localhost/RecipesDB?driver=ODBC+Driver+17+for+SQL+Server'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class Recipe(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    ingredients = db.Column(db.Text, nullable=False)
+    steps = db.Column(db.Text, nullable=False)
+    preparation_time = db.Column(db.Integer, nullable=False)
+    ratings = db.relationship('Rating', backref='recipe', lazy=True)
+    comments = db.relationship('Comment', backref='recipe', lazy=True)
+
+class Rating(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer, nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+
+# API Endpoints
+@app.route('/recipes', methods=['POST'])
+def add_recipe():
+    # Implementation for adding a recipe
+    pass
+
+@app.route('/recipes', methods=['GET'])
+def get_recipes():
+    # Implementation for getting all recipes
+    pass
+
+@app.route('/recipes/<int:recipe_id>', methods=['GET'])
+def get_recipe(recipe_id):
+    # Implementation for getting a specific recipe
+    pass
+
+@app.route('/recipes/<int:recipe_id>', methods=['PUT'])
+def update_recipe(recipe_id):
+    # Implementation for updating a specific recipe
+    pass
+
+@app.route('/recipes/<int:recipe_id>', methods=['DELETE'])
+def delete_recipe(recipe_id):
+    # Implementation for deleting a specific recipe
+    pass
+
+@app.route('/recipes/<int:recipe_id>/ratings', methods=['POST'])
+def rate_recipe(recipe_id):
+    # Implementation for rating a recipe
+    pass
+
+@app.route('/recipes/<int:recipe_id>/comments', methods=['POST'])
+def add_comment(recipe_id):
+    # Implementation for adding a comment to a recipe
+    pass
+
+@app.route('/recipes/<int:recipe_id>/comments', methods=['GET'])
+def get_comments(recipe_id):
+    # Implementation for getting comments of a recipe
+    pass
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')

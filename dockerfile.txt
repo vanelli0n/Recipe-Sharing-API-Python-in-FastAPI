@@ -1,0 +1,9 @@
+# db/Dockerfile
+
+# Dockerfile for MSSQL Database
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=YourStrong@Passw0rd
+
+COPY init.sql /docker-entrypoint-initdb.d/
